@@ -48,6 +48,16 @@ param logWorkspaceCustomerId string
 @description('Log Analytics workspace shared key')
 param logWorkspaceKey string
 
+@description('Login server of your existing ACR, e.g. hermesacr.azurecr.io')
+param acrLoginServer string
+
+@description('Admin username of your existing ACR')
+param acrAdminUsername string
+
+@secure()
+@description('Admin password of your existing ACR')
+param acrAdminPassword string
+
 // ── Application secrets ───────────────────────────────────────────────────────
 @secure()
 param openrouterApiKey string
@@ -75,23 +85,13 @@ param microsoftAppSecret string
 param microsoftAppTenant string
 
 // ── Derived resource names ─────────────────────────────────────────────────────
-var acrName            = '${replace(prefix, '-', '')}acr${environment}'
 var storageAccountName = '${replace(prefix, '-', '')}state${environment}'
 var fileShareName      = 'hermes-state'
 var containerEnvName   = '${prefix}-env-${environment}'
 var controlPlaneName   = '${prefix}-control-plane-${environment}'
 var hermesServiceName  = '${prefix}-hermes-service-${environment}'
 
-// ── 1. Container Registry ─────────────────────────────────────────────────────
-module acr 'container-registry.bicep' = {
-  name: 'acr'
-  params: {
-    acrName: acrName
-    location: location
-  }
-}
-
-// ── 2. Azure Files (hermes-service SessionDB persistence) ─────────────────────
+// ── 1. Azure Files (hermes-service SessionDB persistence) ─────────────────────
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
   location: location
@@ -148,9 +148,9 @@ module controlPlane 'container-apps.bicep' = {
     appName: controlPlaneName
     location: location
     containerEnvId: containerEnv.id
-    acrLoginServer: acr.outputs.loginServer
-    acrAdminUsername: acr.outputs.adminUsername
-    acrAdminPassword: acr.outputs.adminPassword
+    acrLoginServer: acrLoginServer
+    acrAdminUsername: acrAdminUsername
+    acrAdminPassword: acrAdminPassword
     imageName: 'control-plane'
     imageTag: 'latest'
     minReplicas: environment == 'prod' ? 1 : 0
@@ -189,9 +189,9 @@ module hermesService 'container-apps.bicep' = {
     appName: hermesServiceName
     location: location
     containerEnvId: containerEnv.id
-    acrLoginServer: acr.outputs.loginServer
-    acrAdminUsername: acr.outputs.adminUsername
-    acrAdminPassword: acr.outputs.adminPassword
+    acrLoginServer: acrLoginServer
+    acrAdminUsername: acrAdminUsername
+    acrAdminPassword: acrAdminPassword
     imageName: 'hermes-service'
     imageTag: 'latest'
     minReplicas: 0
@@ -227,4 +227,3 @@ module hermesService 'container-apps.bicep' = {
 
 // ── Outputs ───────────────────────────────────────────────────────────────────
 output controlPlaneFqdn string = controlPlane.outputs.fqdn
-output acrLoginServer string = acr.outputs.loginServer

@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
 
 env:
-  ACR_NAME: hermesacr
-  RESOURCE_GROUP: hermes-rg
-  CONTROL_PLANE_APP: hermes-control-plane
-  HERMES_SERVICE_APP: hermes-service
+  ACR_NAME: kyhermes2026
+  RESOURCE_GROUP: rg-hermes-dev
+  CONTROL_PLANE_APP: hermes-control-plane-prod
+  HERMES_SERVICE_APP: hermes-hermes-service-prod
 
 jobs:
   # ── Build + push both Docker images ───────────────────────────────────────────

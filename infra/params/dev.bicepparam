@@ -17,6 +17,11 @@ param appInsightsConnectionString = readEnvironmentVariable('APPLICATIONINSIGHTS
 param logWorkspaceCustomerId      = readEnvironmentVariable('LOG_WORKSPACE_CUSTOMER_ID')
 param logWorkspaceKey             = readEnvironmentVariable('LOG_WORKSPACE_KEY')
 
+// ACR → Azure Portal → your Container Registry → Access keys
+param acrLoginServer              = readEnvironmentVariable('ACR_LOGIN_SERVER')
+param acrAdminUsername            = readEnvironmentVariable('ACR_ADMIN_USERNAME')
+param acrAdminPassword            = readEnvironmentVariable('ACR_ADMIN_PASSWORD')
+
 // ── Application secrets ───────────────────────────────────────────────────────
 param openrouterApiKey    = readEnvironmentVariable('OPENROUTER_API_KEY')
 param slackBotToken       = readEnvironmentVariable('SLACK_BOT_TOKEN')
