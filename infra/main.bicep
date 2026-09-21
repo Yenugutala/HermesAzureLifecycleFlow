@@ -144,6 +144,8 @@ module controlPlane 'container-apps.bicep' = {
     location: location
     containerEnvId: containerEnv.id
     acrLoginServer: acr.outputs.loginServer
+    acrAdminUsername: acr.outputs.adminUsername
+    acrAdminPassword: acr.outputs.adminPassword
     imageName: 'control-plane'
     imageTag: 'latest'
     minReplicas: environment == 'prod' ? 1 : 0
@@ -183,6 +185,8 @@ module hermesService 'container-apps.bicep' = {
     location: location
     containerEnvId: containerEnv.id
     acrLoginServer: acr.outputs.loginServer
+    acrAdminUsername: acr.outputs.adminUsername
+    acrAdminPassword: acr.outputs.adminPassword
     imageName: 'hermes-service'
     imageTag: 'latest'
     minReplicas: 0

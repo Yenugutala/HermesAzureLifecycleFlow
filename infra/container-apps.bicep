@@ -3,6 +3,9 @@ param appName string
 param location string
 param containerEnvId string
 param acrLoginServer string
+param acrAdminUsername string
+@secure()
+param acrAdminPassword string
 param imageName string
 param imageTag string = 'latest'
 param minReplicas int = 0
@@ -83,11 +86,13 @@ resource app 'Microsoft.App/containerApps@2023-05-01' = {
       registries: [
         {
           server: acrLoginServer
-          username: acrLoginServer
+          username: acrAdminUsername
           passwordSecretRef: 'acr-password'
         }
       ]
-      secrets: secrets
+      secrets: concat(secrets, [
+        { name: 'acr-password', value: acrAdminPassword }
+      ])
     }
     template: {
       containers: [
