@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "packageName": "com.hermes.agent",
+  "developer": {
+    "name": "Hermes Agent",
+    "websiteUrl": "https://github.com",
+    "privacyUrl": "https://github.com",
+    "termsOfUseUrl": "https://github.com"
+  },
+  "name": {
+    "short": "Hermes Agent",
+    "full": "Hermes AI Agent — Jira & SharePoint"
+  },
+  "description": {
+    "short": "AI agent for Jira tickets and BRD story creation",
+    "full": "Hermes Agent pulls Jira tickets, answers questions about them, and creates epics and user stories from SharePoint BRD documents using AI."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#0078D4",
+  "bots": [
+    {
+      "botId": "7b8bbed0-5213-4292-a5c3-329024e00ea1",
+      "scopes": ["personal", "team", "groupchat"],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "commandLists": [
+        {
+          "scopes": ["personal", "team"],
+          "commands": [
+            {
+              "title": "list tickets",
+              "description": "List all open Jira tickets"
+            },
+            {
+              "title": "what is SCRUM-1",
+              "description": "Get details of a specific Jira ticket"
+            },
+            {
+              "title": "create stories from BRD",
+              "description": "Create epics and stories from a BRD file"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": []
+}

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv*/
+venv/
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.local
+*.env
+
+# Hermes runtime state
+*.db
+*.db-shm
+*.db-wal
+hermes-agent.zip
+
+# Data / indexes
+hermes-service/data/*.json
+hermes-service/data/*.npy
+hermes-service/data/*.pkl
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# macOS
+.DS_Store

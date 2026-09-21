@@ -1,0 +1,67 @@
+# Hermes Agent configuration for hermes-service
+# Loaded automatically by AIAgent when present in the working directory.
+
+# ── Plugins ───────────────────────────────────────────────────────────────────
+plugins:
+  - path: plugins/jira_plugin.py
+  - path: plugins/story_plugin.py
+  - path: plugins/confluence_plugin.py
+  - path: plugins/search_plugin.py
+
+# ── Toolsets ──────────────────────────────────────────────────────────────────
+# Split into read/write for RBAC — viewer gets jira_read only,
+# BA/engineer get jira_read + jira_write + story + confluence.
+toolsets:
+  jira_read:
+    - jira_list_tickets
+    - jira_get_ticket
+  jira_write:
+    - jira_create_epic
+    - jira_create_story
+  story:
+    - break_brd_into_stories
+  confluence:
+    - confluence_search
+    - confluence_get_page
+    - confluence_find_relevant
+
+# ── Agent defaults ────────────────────────────────────────────────────────────
+agent:
+  model: anthropic/claude-haiku-4-5
+  max_iterations: 10
+  skip_memory: true
+  quiet_mode: true
+
+  # ── Fallback model chain ─────────────────────────────────────────────────────
+  # Hermes automatically switches to next entry on rate-limits (429),
+  # overload (529), service errors (503), or empty/malformed responses.
+  fallback_model:
+    - model: anthropic/claude-haiku-4-5-20251001
+      provider: openrouter
+      key_env: OPENROUTER_API_KEY
+    - model: anthropic/claude-3-5-haiku
+      provider: openrouter
+      key_env: OPENROUTER_API_KEY
+
+  # ── Platform toolsets ────────────────────────────────────────────────────────
+  # NOTE: global ~/.hermes/config.yaml disables most of these by default.
+  # They are also enabled explicitly via enabled_toolsets in main.py (belt+suspenders).
+  platform_toolsets:
+    - delegation      # delegate_task — spawn parallel child agents
+    - web             # web_search + web_extract
+    - skills          # skill_manage — load/create reusable procedural skills
+    - session_search  # session_search — search past conversations in SQLite
+
+  # ── Prompt caching ───────────────────────────────────────────────────────────
+  # Active via ~/.hermes/config.yaml (cache_ttl: 5m). Caches system prompt
+  # tokens across requests — 90% token discount on repeated context blocks.
+  # No change needed here; documented for visibility.
+
+  # ── Web search backend ───────────────────────────────────────────────────────
+  web:
+    backend: ddgs  # DuckDuckGo — free, no API key required
+
+  # ── Multi-agent delegation config ────────────────────────────────────────────
+  delegation:
+    max_concurrent_children: 3   # run up to 3 subtasks in parallel
+    max_spawn_depth: 1           # flat: parent → children only, no grandchildren

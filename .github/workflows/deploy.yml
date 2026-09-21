@@ -1,0 +1,98 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  ACR_NAME: hermesacr
+  RESOURCE_GROUP: hermes-rg
+  CONTROL_PLANE_APP: hermes-control-plane
+  HERMES_SERVICE_APP: hermes-service
+
+jobs:
+  # ── Build + push both Docker images ───────────────────────────────────────────
+  build-and-push:
+    name: Build & Push Images
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set image tag
+        id: meta
+        run: echo "tag=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Azure Container Registry
+        run: az acr login --name $ACR_NAME
+
+      - name: Build & push control-plane image
+        run: |
+          docker build \
+            -t $ACR_NAME.azurecr.io/control-plane:${{ github.sha }} \
+            -t $ACR_NAME.azurecr.io/control-plane:latest \
+            ./control-plane
+          docker push $ACR_NAME.azurecr.io/control-plane:${{ github.sha }}
+          docker push $ACR_NAME.azurecr.io/control-plane:latest
+
+      - name: Build & push hermes-service image
+        run: |
+          docker build \
+            -t $ACR_NAME.azurecr.io/hermes-service:${{ github.sha }} \
+            -t $ACR_NAME.azurecr.io/hermes-service:latest \
+            ./hermes-service
+          docker push $ACR_NAME.azurecr.io/hermes-service:${{ github.sha }}
+          docker push $ACR_NAME.azurecr.io/hermes-service:latest
+
+  # ── Deploy both Container Apps ─────────────────────────────────────────────────
+  deploy:
+    name: Deploy to Azure Container Apps
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy control-plane
+        run: |
+          az containerapp update \
+            --name $CONTROL_PLANE_APP \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_NAME.azurecr.io/control-plane:${{ needs.build-and-push.outputs.image_tag }}
+
+      - name: Deploy hermes-service
+        run: |
+          az containerapp update \
+            --name $HERMES_SERVICE_APP \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_NAME.azurecr.io/hermes-service:${{ needs.build-and-push.outputs.image_tag }}
+
+      - name: Verify control-plane health
+        run: |
+          sleep 15
+          az containerapp revision list \
+            --name $CONTROL_PLANE_APP \
+            --resource-group $RESOURCE_GROUP \
+            --query "[?properties.active].{name:name, replicas:properties.replicas}" \
+            --output table
+
+      - name: Verify hermes-service active revision
+        run: |
+          az containerapp revision list \
+            --name $HERMES_SERVICE_APP \
+            --resource-group $RESOURCE_GROUP \
+            --query "[?properties.active].{name:name, replicas:properties.replicas}" \
+            --output table
