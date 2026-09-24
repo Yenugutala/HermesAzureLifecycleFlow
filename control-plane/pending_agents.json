@@ -1,3 +1,13 @@
 {
-  "pending": []
+  "pending": [
+    {
+      "name": "servicenow",
+      "display_name": "ServiceNow",
+      "pr_url": "https://github.com/Yenugutala/HermesAzureLifecycleFlow/pull/3",
+      "pr_branch": "feature_kyenugutala_servicenow_20260924",
+      "pr_number": 3,
+      "requested_by": "kyenugutala@outlook.com",
+      "requested_at": "2026-09-24T13:51:18.927036+00:00"
+    }
+  ]
 }
