@@ -17,6 +17,15 @@
       "pr_number": 2,
       "requested_by": "kyenugutala@outlook.com",
       "requested_at": "2026-09-24T04:21:21.455676+00:00"
+    },
+    {
+      "name": "servicenow",
+      "display_name": "ServiceNow",
+      "pr_url": "https://github.com/Yenugutala/HermesAzureLifecycleFlow/pull/2",
+      "pr_branch": "feature_kyenugutala_servicenow_20260924",
+      "pr_number": 2,
+      "requested_by": "kyenugutala@outlook.com",
+      "requested_at": "2026-09-24T04:49:38.837772+00:00"
     }
   ]
 }
