@@ -1,0 +1,13 @@
+{
+  "pending": [
+    {
+      "name": "service",
+      "display_name": "Service",
+      "pr_url": "https://github.com/Yenugutala/HermesAzureLifecycleFlow/pull/1",
+      "pr_branch": "feature_kyenugutala_service_20260924",
+      "pr_number": 1,
+      "requested_by": "kyenugutala@outlook.com",
+      "requested_at": "2026-09-24T03:26:19.839519+00:00"
+    }
+  ]
+}
