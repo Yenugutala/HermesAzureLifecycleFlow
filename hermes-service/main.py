@@ -246,6 +246,7 @@ def _create_jira_story_sync(service_name: str, user_email: str) -> str | None:
     jira_email = os.environ.get("JIRA_EMAIL", "")
     jira_token = os.environ.get("JIRA_API_TOKEN", "")
     proj_key   = os.environ.get("JIRA_PROJECT_KEY", "SCRUM")
+    issue_type = os.environ.get("JIRA_ISSUE_TYPE", "Task")
     if not (jira_base and jira_email and jira_token):
         return None
     creds   = _b64.b64encode(f"{jira_email}:{jira_token}".encode()).decode()
@@ -263,7 +264,7 @@ def _create_jira_story_sync(service_name: str, user_email: str) -> str | None:
                               f"Define API endpoints, auth strategy, and scaffolding requirements.")}
                 ]}]
             },
-            "issuetype": {"name": "Story"},
+            "issuetype": {"name": issue_type},
         }
     }
     try:
