@@ -7,6 +7,7 @@ plugins:
   - path: plugins/story_plugin.py
   - path: plugins/confluence_plugin.py
   - path: plugins/search_plugin.py
+  - path: plugins/developer_plugin.py
 
 # ── Toolsets ──────────────────────────────────────────────────────────────────
 # Split into read/write for RBAC — viewer gets jira_read only,
@@ -24,6 +25,10 @@ toolsets:
     - confluence_search
     - confluence_get_page
     - confluence_find_relevant
+  developer:
+    - developer_analyze
+    - developer_show_form
+    - developer_create_agent
 
 # ── Agent defaults ────────────────────────────────────────────────────────────
 agent:

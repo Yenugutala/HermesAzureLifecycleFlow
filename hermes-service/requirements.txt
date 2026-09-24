@@ -4,7 +4,7 @@ requests>=2.32.0
 python-dotenv>=1.0.1
 botframework-connector==4.15.0
 slack-sdk==3.27.2
-hermes-agent>=0.14.0
+hermes-agent>=0.19.0
 opencensus-ext-azure==1.1.13
 sentence-transformers==3.3.1
 beautifulsoup4==4.12.3
