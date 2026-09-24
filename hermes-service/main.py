@@ -59,6 +59,7 @@ CAPABILITY_TOOLSET_MAP: dict[str, list[str]] = {
     "jira_getter":       ["jira_hermes"],
     "brd_story_creator": ["jira_hermes", "story_hermes", "confluence_hermes"],
     "deploy_pipeline":   [],
+    "servicenow_viewer": ["servicenow"],
     "agent_factory":     ["developer"],   # developer_analyze, developer_show_form, developer_create_agent
 }
 

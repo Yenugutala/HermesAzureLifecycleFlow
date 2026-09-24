@@ -8,6 +8,7 @@ plugins:
   - path: plugins/confluence_plugin.py
   - path: plugins/search_plugin.py
   - path: plugins/developer_plugin.py
+  - path: plugins/servicenow_plugin.py
 
 # ── Toolsets ──────────────────────────────────────────────────────────────────
 # Split into read/write for RBAC — viewer gets jira_read only,
@@ -70,3 +71,7 @@ agent:
   delegation:
     max_concurrent_children: 3   # run up to 3 subtasks in parallel
     max_spawn_depth: 1           # flat: parent → children only, no grandchildren
+  servicenow:
+    - servicenow_list_incidents
+    - servicenow_get_incident
+    - servicenow_create_incident
