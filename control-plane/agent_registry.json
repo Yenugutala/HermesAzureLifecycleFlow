@@ -1,0 +1,67 @@
+{
+  "agents": [
+    {
+      "name": "jira",
+      "display_name": "Jira",
+      "description": "List, get, and create Jira tickets, epics, and stories",
+      "capabilities": [
+        "jira_lister",
+        "jira_getter",
+        "brd_story_creator"
+      ],
+      "toolsets": [
+        "jira_read",
+        "jira_write"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "confluence",
+      "display_name": "Confluence",
+      "description": "Search and retrieve Confluence pages and BRD documents",
+      "capabilities": [
+        "brd_story_creator"
+      ],
+      "toolsets": [
+        "confluence"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "story",
+      "display_name": "Story Builder",
+      "description": "Break Business Requirements Documents into epics and user stories using AI",
+      "capabilities": [
+        "brd_story_creator"
+      ],
+      "toolsets": [
+        "story"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "sharepoint",
+      "display_name": "SharePoint / OneDrive",
+      "description": "Search and download BRD files from SharePoint and OneDrive via Microsoft Graph API",
+      "capabilities": [
+        "brd_story_creator"
+      ],
+      "toolsets": [
+        "confluence"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "servicenow",
+      "display_name": "ServiceNow",
+      "description": "Interact with ServiceNow \u2014 list, get_by_id, create, update",
+      "capabilities": [
+        "servicenow_viewer"
+      ],
+      "toolsets": [
+        "servicenow"
+      ],
+      "status": "active"
+    }
+  ]
+}
