@@ -1,0 +1,7 @@
+# Add to hermes.yaml — plugins section:
+  - path: plugins/service_plugin.py
+
+# Add to hermes.yaml — toolsets section:
+  service:
+    - service_list_services
+    - service_get_service

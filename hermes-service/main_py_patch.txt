@@ -1,0 +1,6 @@
+# Add to CAPABILITY_TOOLSET_MAP in hermes-service/main.py:
+    "3. *Operations* — any of: list, get_by_id, update": ["service"],
+
+# Add to control-plane/capabilities.py for the relevant roles:
+    "admin":    [..., "3. *Operations* — any of: list, get_by_id, update"],
+    "engineer": [..., "3. *Operations* — any of: list, get_by_id, update"],

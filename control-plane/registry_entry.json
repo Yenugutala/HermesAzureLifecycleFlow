@@ -1,0 +1,12 @@
+{
+  "name": "service",
+  "display_name": "Service",
+  "description": "Interact with Service \u2014 list, get_by_id, update",
+  "capabilities": [
+    "3. *Operations* \u2014 any of: list, get_by_id, update"
+  ],
+  "toolsets": [
+    "service"
+  ],
+  "status": "active"
+}
